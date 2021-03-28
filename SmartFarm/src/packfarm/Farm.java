@@ -1,6 +1,7 @@
 package packfarm;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Farm class includes all necessary information in order to monitorize farm animals
@@ -72,7 +73,9 @@ public class Farm {
 	 * Gets a physiological register from every farm animal
 	 */
 	public void register() {
-		for (FarmAnimal animal: farmAnimalSet) animal.register();
+		for (FarmAnimal animal: farmAnimalSet) {
+			animal.register();
+		}
 	}
 	
 	/**
@@ -123,12 +126,10 @@ public class Farm {
 	 * @return an array with every animal that is older than the age passed by parameter
 	 */
 	public ArrayList<String> obtainFarmAnimalOlder(int age) {
-		ArrayList<String> olderAnimalIds = new ArrayList<String>();
-		
+		ArrayList<String> olderAnimalIds = new ArrayList<String>();		
 		for (FarmAnimal animal: farmAnimalSet) {
 			if (animal.getAge() > age) olderAnimalIds.add(animal.getId());
 		}
-		
 		return olderAnimalIds;
 	}
 	
@@ -143,12 +144,14 @@ public class Farm {
 	 */
 	public ArrayList<String> farmAnimalDeparture(double max_weight, double max_temperature) {
 		ArrayList<String> departureAnimalIds = new ArrayList<String>(); 
+		Iterator<FarmAnimal> it = farmAnimalSet.iterator();
 		
-		for (FarmAnimal animal: farmAnimalSet) {
+		while (it.hasNext()) {
+			FarmAnimal animal = it.next();
 			if (animal.getWeight() > max_weight && animal.avgTemperature() <= max_temperature) {
 				departureAnimalIds.add(animal.getId());
 				sensorList.add(animal.getMySensor());
-				farmAnimalSet.remove(animal);
+				it.remove();
 			}
 		}
 		
