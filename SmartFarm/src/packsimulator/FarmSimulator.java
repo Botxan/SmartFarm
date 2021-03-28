@@ -16,6 +16,10 @@ import packfarm.*;
  */
 public class FarmSimulator {
 	
+	/**
+	 * Main method
+	 * @param args No parameters required
+	 */
 	public static void main(String args[]) {
 		// Farm singleton instance
 		Farm farm = Farm.getInstance();

@@ -12,9 +12,9 @@ public class PhysiologicalValues {
 	
 	/**
 	 * PhysiologicalValues Constructor. Initializes every attribute.
-	 * @param heartRate
-	 * @param temperature
-	 * @param activity
+	 * @param heartRate animal heart rate
+	 * @param temperature animal body temperature
+	 * @param activity animal activity (must be from 1 to 5)
 	 */
 	public PhysiologicalValues(int heartRate, double temperature, int activity) {
 		this.heartRate = heartRate;

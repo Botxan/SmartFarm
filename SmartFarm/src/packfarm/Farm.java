@@ -140,7 +140,7 @@ public class Farm {
 	 * with all the animals removed, and adds their sensor to the available sensor list.
 	 * @param max_weight the maximum weight before considering the animal to be removed
 	 * @param max_temperature the maximum temperature before considering any sickness
-	 * @return
+	 * @return an array with all the animals removed
 	 */
 	public ArrayList<String> farmAnimalDeparture(double max_weight, double max_temperature) {
 		ArrayList<String> departureAnimalIds = new ArrayList<String>(); 
