@@ -34,7 +34,7 @@ public class FarmAnimal {
 	/**
 	 * FarmAnimal class constructor. Initializes ID, age, weight and mySensor.
 	 * @param id animal id
-	 * @param age aniaml age
+	 * @param age animal age
 	 * @param weight animal weight
 	 * @param mySensor the sensor assigned to the animal
 	 */
@@ -172,5 +172,14 @@ public class FarmAnimal {
 		}
 		
 		return n == 0 ? 0 : avg/n;
+	}
+	
+	/**
+	 * Overwritten from Object superclass in order to properly compare 2 farm animals
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		FarmAnimal animal = (FarmAnimal) obj;
+		return ID == animal.ID;
 	}
 }
