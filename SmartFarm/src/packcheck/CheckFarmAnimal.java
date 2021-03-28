@@ -2,7 +2,7 @@ package packcheck;
 import packfarm.FarmAnimal;
 import packfarm.Sensor;
 
-public class checkFarmAnimal {
+public class CheckFarmAnimal {
 	public static void main(String[] args) {
 //		FarmAnimal animal1 = new FarmAnimal("BOV727");
 		FarmAnimal animal2 = new FarmAnimal("BOV728", 5, 652.11, new Sensor("ID441"));

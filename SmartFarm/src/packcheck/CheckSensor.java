@@ -1,7 +1,7 @@
 package packcheck;
 import packfarm.Sensor;
 
-public class checkSensor {
+public class CheckSensor {
 	public static void main(String[] args) {
 		Sensor sensor = new Sensor("ID452");
 		
