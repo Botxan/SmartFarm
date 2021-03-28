@@ -1,10 +1,8 @@
 package packfarm;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
  * Represents any animal on the farm. Every animal is monitorized until it leaves the farm.
@@ -17,7 +15,7 @@ public class FarmAnimal {
 	private double weight;
 	private Sensor mySensor;
 	private PhysiologicalValues[] myValues;
-	private final int MAX_VALUE = 6;
+	private final int MAX_VALUE = 7;
 	private int length;
 	
 	/**
@@ -125,12 +123,9 @@ public class FarmAnimal {
 				myValues[length] = mySensor.collectValues();
 				length++;
 				break;
-			} catch(Sensor.CollectErrorException e) {
-				System.out.println("Error while colecting physiological data. Trying again...");
-			}
+			} catch(Sensor.CollectErrorException e) {}
 		}
 	}
-
 	
 	/**
 	 * Stores all physiological values of myValues array in a file
@@ -140,6 +135,7 @@ public class FarmAnimal {
 			FileWriter wr = new FileWriter(new File("./data/historicalValues.txt"), true);
 			wr.write(toString() + "\n");
 			for (int i = 0; i < MAX_VALUE; i++) wr.write(myValues[i].toString() + "\n");
+			wr.close();
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -158,21 +154,39 @@ public class FarmAnimal {
 	 * if no temperature is registered, the returned value is 0
 	 */
 	public double avgTemperature() {
-		double avg = 0;
+		double sum = 0;
 		int n = 0;
-		
-		try {
-			Scanner sc = new Scanner(new FileReader(".data/historicalValues.txt"));
-			while(sc.hasNextLine()) {
-				String[] PhyValues = sc.nextLine().split(" ");
-				avg += Double.parseDouble(PhyValues[2]);
-			};
-		} catch (IOException e) {
-			e.printStackTrace();
+		for (int i = 0; i < length; i++) {
+			sum += myValues[i].getTemperature();
+			n++;
 		}
-		
-		return n == 0 ? 0 : avg/n;
+		return n == 0 ? 0 : sum/n;
 	}
+	
+//	public double avgTemperature() {
+//		double sum = 0;
+//		int n = 0;
+//		
+//		try {
+//			Scanner sc = new Scanner(new FileReader("./data/historicalValues.txt"));		
+//			
+//			while(sc.hasNextLine()) {
+//				String[] phyValues = sc.nextLine().split(" ");
+//				if (phyValues[0].equals(ID)) {
+//					for (int i = 0; i < 7; i++) {
+//						phyValues = sc.nextLine().split(" ");
+//						sum += Double.parseDouble(phyValues[1]);
+//						n++;
+//					}
+//				}				
+//			};
+//			
+//			sc.close();			
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return n == 0 ? 0 : sum/n;
+//	}
 	
 	/**
 	 * Overwritten from Object superclass in order to properly compare 2 farm animals
