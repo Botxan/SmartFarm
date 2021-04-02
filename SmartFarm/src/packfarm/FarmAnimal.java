@@ -37,13 +37,10 @@ public class FarmAnimal {
 	 * @param mySensor the sensor assigned to the animal
 	 */
 	public FarmAnimal(String id, int age, double weight, Sensor mySensor) {
-		this.ID = id;
+		this(id);
 		this.age = age;
 		this.weight = weight;
 		this.mySensor = mySensor;
-		
-		myValues = new PhysiologicalValues[MAX_VALUE];
-		length = 0;
 	}
 	
 	/**
@@ -106,7 +103,7 @@ public class FarmAnimal {
 	 */
 	@Override
 	public String toString() {
-		return ID + " " + age + " " + weight + " " + mySensor.toString();
+		return ID + " " + age + " " + weight + " " + mySensor;
 	}
 	
 	/**
@@ -114,16 +111,21 @@ public class FarmAnimal {
 	 * then all data stored it is bulked to an external file and the array is reset.
 	 */
 	public void register() {
+		boolean collected = false;
+		
 		if (length == MAX_VALUE) {
 			storeValuesInFile();
 			initWeek();
 		}
-		while (true) {
+		while (!collected) {
 			try {
 				myValues[length] = mySensor.collectValues();
 				length++;
-				break;
-			} catch(Sensor.CollectErrorException e) {}
+				collected = true;
+			} catch(Sensor.CollectErrorException e) {
+				// Omitting the print cause it would saturate the stdout
+				// System.out.println(e.getMessage());
+			}
 		}
 	}
 	
@@ -194,6 +196,6 @@ public class FarmAnimal {
 	@Override
 	public boolean equals(Object obj) {
 		FarmAnimal animal = (FarmAnimal) obj;
-		return ID == animal.ID;
+		return ID.equals(animal.ID);
 	}
 }
