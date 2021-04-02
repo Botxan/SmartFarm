@@ -160,4 +160,12 @@ public class Farm {
 		
 		return departureAnimalIds;
 	}
+	
+	public ArrayList<Sensor> getSensorList() {
+		return sensorList;
+	}
+	
+	public ArrayList<FarmAnimal> getFarmAnimalSet() {
+		return farmAnimalSet;
+	}
 }

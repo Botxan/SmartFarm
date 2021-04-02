@@ -75,6 +75,14 @@ public class FarmAnimal {
 		return mySensor;
 	}
 	
+	public int getMyValuesLength() {
+		return length;
+	}
+	
+	public double getPhyTemperature(int index) {
+		return myValues[index].getTemperature();
+	}
+	
 	/**
 	 * Setter for age.
 	 * @param age animal age
