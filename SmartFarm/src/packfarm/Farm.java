@@ -39,7 +39,10 @@ public class Farm {
 	 * @param weight animal weight
 	 * @throws IndexOutOfBoundsException if no sensors are available (empty list)
 	 */
-	public void addFarmAnimal(String id, int age, double weight) throws IndexOutOfBoundsException{		
+	public void addFarmAnimal(String id, int age, double weight) throws IndexOutOfBoundsException{
+		if (sensorList.size() == 0) {
+			throw new IndexOutOfBoundsException("No sensors available");
+		}
 		Sensor sensor = sensorList.remove(sensorList.size() - 1);
 		farmAnimalSet.add(new FarmAnimal(id, age, weight, sensor));
 	}
