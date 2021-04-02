@@ -15,6 +15,7 @@ import packfarm.*;
  * @version 1
  */
 public class FarmSimulator {
+	private static Farm farm;
 	
 	/**
 	 * Main method
@@ -22,14 +23,14 @@ public class FarmSimulator {
 	 */
 	public static void main(String args[]) {
 		// Farm singleton instance
-		Farm farm = Farm.getInstance();
+		farm = Farm.getInstance();
 		
 		// Load sensors and print amount of available sensors
-		loadSensors(farm);
+		loadSensors();
 		System.out.println("Available sensors: " + farm.howManySensor() + ".");
 		
 		// Load animals data and print total animals
-		loadFarmAnimals(farm);
+		loadFarmAnimals();
 		System.out.println("Total animals: " + farm.howManyAnimals() + ".");
 		
 		// Get and print animals older than 17
@@ -60,7 +61,7 @@ public class FarmSimulator {
 		// add the new animal
 		try {
 			farm.addSensor(new Sensor("ID360"));
-			System.out.println("\nAdded new sensor.");
+			System.out.println("Added new sensor.");
 			farm.addFarmAnimal("XXXX", 15, 529.43);
 			System.out.println("Animal added succesfully.");
 		} catch (IndexOutOfBoundsException e) {
@@ -84,7 +85,7 @@ public class FarmSimulator {
 	 * Reads the sensor file and adds all the sensors to the farm sensor list.
 	 * @param farm the farm instance
 	 */
-	private static void loadSensors(Farm farm) {
+	private static void loadSensors() {
 		Scanner sc;
 		try {
 			sc = new Scanner(new FileReader("./data/availableSensors.txt"));
@@ -102,7 +103,7 @@ public class FarmSimulator {
 	 * @param farm the farm instance
 	 */
 	// we are supossing that animal list file is always correct
-	private static void loadFarmAnimals(Farm farm) {
+	private static void loadFarmAnimals() {
 		Scanner sc;
 		try {
 			sc = new Scanner(new FileReader("./data/smartFarm.txt"));
