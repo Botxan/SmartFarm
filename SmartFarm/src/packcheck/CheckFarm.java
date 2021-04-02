@@ -17,16 +17,16 @@ public class CheckFarm {
 			farm.addFarmAnimal("BOV729", 6, 530.01);
 			farm.addFarmAnimal("BOV730", 3, 502.11);
 		} catch (IndexOutOfBoundsException e) {
-			System.out.println("Error while adding the animal: no sensors available");
+			System.out.println(e.getMessage());
 		}
 		
-		System.out.println("Total of animals added: " + farm.howManyAnimals());
+		System.out.println("\nTotal of animals added: " + farm.howManyAnimals());
 		System.out.println("Total of sensors available: " + farm.howManySensor());
 		
 		for (int i = 0; i < 6; i++) farm.register();
 		
 		ArrayList<FarmAnimal> possibleSickAnimals = farm.obtainPossiblySick(102);
-		System.out.println("Possibly sick animals: ");
+		System.out.println("\nPossibly sick animals: ");
 		for (FarmAnimal animal: possibleSickAnimals) System.out.println(animal.toString());
 		
 		System.out.println("\nAnimal with the id BOV728: ");
