@@ -40,7 +40,7 @@ public class PhysiologicalValues {
 	
 	/**
 	 * Getter for activity
-	 * @return animal activity
+	 * @return animal activity (range 1..5)
 	 */
 	public int getActivity() {
 		return activity;
