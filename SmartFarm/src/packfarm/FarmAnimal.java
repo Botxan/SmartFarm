@@ -75,10 +75,30 @@ public class FarmAnimal {
 		return mySensor;
 	}
 	
+	/**
+	 * Returns MyValues array length.
+	 * Method used for JUnit testing purpouses.
+	 * @return MyValues array length
+	 */
 	public int getMyValuesLength() {
 		return length;
 	}
 	
+	/**
+	 * Returnn MyValues array last value.
+	 * Method used for JUnit testing purpouses
+	 * @return MyValues array last value
+	 */
+	public PhysiologicalValues getLastValue() {
+		return length == 0 ? null : myValues[length-1];
+	}
+	
+	/**
+	 * Returns the temperature of the physiologicalValues object with the index passed by parameter.
+	 * Method used for JUnit testing purpouses.
+	 * @param index array index
+	 * @return the temperature of the physiologicalValues object with the index passed by parameter.
+	 */
 	public double getPhyTemperature(int index) {
 		return myValues[index].getTemperature();
 	}
@@ -99,7 +119,7 @@ public class FarmAnimal {
 		this.weight = weight;
 	}
 	
-	/** Setter for mySensor
+	/** Setter for mySensor.
 	 * @param mySensor the sensor associated to the animal
 	 */
 	public void setMySensor(Sensor mySensor) {
@@ -107,7 +127,7 @@ public class FarmAnimal {
 	}
 	
 	/**
-	 * Overwritten from Object superclass in order to return a propper String with FarmAnimal data
+	 * Overwritten from Object superclass in order to return a propper String with FarmAnimal data.
 	 */
 	@Override
 	public String toString() {
@@ -115,11 +135,13 @@ public class FarmAnimal {
 	}
 	
 	/**
-	 * Gets physiological values of the animal with its sensor. If physiological data array is full,
+	 * Gets and returns physiological values of the animal with its sensor. If physiological data array is full,
 	 * then all data stored it is bulked to an external file and the array is reset.
+	 * @return physiological values of the animal
 	 */
-	public void register() {
+	public PhysiologicalValues register() {
 		boolean collected = false;
+		PhysiologicalValues phyValues = null;
 		
 		if (length == MAX_VALUE) {
 			storeValuesInFile();
@@ -127,7 +149,8 @@ public class FarmAnimal {
 		}
 		while (!collected) {
 			try {
-				myValues[length] = mySensor.collectValues();
+				phyValues = mySensor.collectValues();
+				myValues[length] = phyValues;
 				length++;
 				collected = true;
 			} catch(Sensor.CollectErrorException e) {
@@ -135,10 +158,12 @@ public class FarmAnimal {
 				// System.out.println(e.getMessage());
 			}
 		}
+		
+		return phyValues;
 	}
 	
 	/**
-	 * Stores all physiological values of myValues array in a file
+	 * Stores all physiological values of myValues array in a file.
 	 */
 	private void storeValuesInFile() {
 		try {
@@ -159,47 +184,20 @@ public class FarmAnimal {
 	}
 	
 	/**
-	 * Returns the average of all temperatures of the animal stored until now
-	 * @return the average of the temperatures registered in the external file.
+	 * Returns the average of all temperatures of the animal stored until now.
+	 * @return the average of the temperatures registered in the external file
 	 * if no temperature is registered, the returned value is 0
 	 */
 	public double avgTemperature() {
 		double sum = 0;
-		int n = 0;
 		for (int i = 0; i < length; i++) {
 			sum += myValues[i].getTemperature();
-			n++;
 		}
-		return n == 0 ? 0 : sum/n;
+		return length == 0 ? 0 : sum/length;
 	}
 	
-//	public double avgTemperature() {
-//		double sum = 0;
-//		int n = 0;
-//		
-//		try {
-//			Scanner sc = new Scanner(new FileReader("./data/historicalValues.txt"));		
-//			
-//			while(sc.hasNextLine()) {
-//				String[] phyValues = sc.nextLine().split(" ");
-//				if (phyValues[0].equals(ID)) {
-//					for (int i = 0; i < 7; i++) {
-//						phyValues = sc.nextLine().split(" ");
-//						sum += Double.parseDouble(phyValues[1]);
-//						n++;
-//					}
-//				}				
-//			};
-//			
-//			sc.close();			
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return n == 0 ? 0 : sum/n;
-//	}
-	
 	/**
-	 * Overwritten from Object superclass in order to properly compare 2 farm animals
+	 * Overwritten from Object superclass in order to properly compare 2 farm animals.
 	 */
 	@Override
 	public boolean equals(Object obj) {

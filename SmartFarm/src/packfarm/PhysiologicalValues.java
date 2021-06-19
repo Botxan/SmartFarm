@@ -23,7 +23,7 @@ public class PhysiologicalValues {
 	}
 	
 	/**
-	 * Getter for heartRate
+	 * Getter for heartRate.
 	 * @return the heart rate
 	 */
 	public int getHeartRate() {
@@ -31,7 +31,7 @@ public class PhysiologicalValues {
 	}
 	
 	/**
-	 * Getter for temperature
+	 * Getter for temperature.
 	 * @return the animal body temperature
 	 */
 	public double getTemperature() {
@@ -39,7 +39,7 @@ public class PhysiologicalValues {
 	}
 	
 	/**
-	 * Getter for activity
+	 * Getter for activity.
 	 * @return animal activity (range 1..5)
 	 */
 	public int getActivity() {
@@ -47,7 +47,7 @@ public class PhysiologicalValues {
 	}
 	
 	/**
-	 * Overwritten from Object superclass in order to return a propper String with all the physiological data
+	 * Overwritten from Object superclass in order to return a propper String with all the physiological data.
 	 */
 	@Override
 	public String toString() {

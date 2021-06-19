@@ -18,21 +18,21 @@ class FarmTest {
 	private ArrayList<FarmAnimal> farmAnimalSet;
 	private int farmAnimalSetLength;
 	
-	private Farm farm = Farm.getInstance();
+	private Farm farm = Farm.getInstance();	
+	private Sensor sensor;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		sensorList = farm.getSensorList();
-		sensorListLength = sensorList.size();
+		sensorList = farm.getSensorList(); // 0 Sensors
+		sensorListLength = farm.howManySensor(); // 0
 		
-		farmAnimalSet = farm.getFarmAnimalSet();
-		farmAnimalSetLength = farmAnimalSet.size();
+		farmAnimalSet = farm.getFarmAnimalSet(); // 0 animals
+		farmAnimalSetLength = farm.howManyAnimals(); // 0
 	}
 	
 	@AfterEach
 	void tearDown() throws Exception {
-		sensorList.clear();
-		farmAnimalSet.clear();
+		farm.reset();
 	}
 
 	/**
@@ -41,13 +41,22 @@ class FarmTest {
 	@Test
 	@DisplayName("addFarmAnimalWithSensors")
 	void testAddFarmAnimalWithSensorsAvailable() {
-		farm.addSensor(new Sensor("ID732"));
-		assertEquals(sensorList.size(), sensorListLength + 1);
+		sensor = new Sensor("ID732");
+		farm.addSensor(sensor);
+		// Check sensor list has increased
+		assertEquals(farm.howManySensor(), sensorListLength + 1); 
+		// Check that the last sensor in the array is the new one
+		assertEquals(sensorList.get(farm.howManySensor()-1), sensor); 
 		
 		try {
-			farm.addFarmAnimal("BOV820", 4, 450.68);
-			assertEquals(sensorList.size(), sensorListLength);
-			assertEquals(farmAnimalSet.size(), farmAnimalSetLength + 1);
+			String animalId = "BOV820";
+			farm.addFarmAnimal(animalId, 4, 450.68);
+			// Check that the sensor list has decreased
+			assertEquals(farm.howManySensor(), sensorListLength);
+			// Check that the farm animal set has increased
+			assertEquals(farm.howManyAnimals(), farmAnimalSetLength + 1);
+			// Check that the last animal is the new one
+			assertEquals(farmAnimalSet.get(farm.howManyAnimals()-1), new FarmAnimal(animalId));
 		} catch(IndexOutOfBoundsException e) {
 			fail("(Unexpected) No sensors available");
 		}
@@ -68,17 +77,34 @@ class FarmTest {
 	@Test
 	@DisplayName("removeFarmAnimalCorrectID")
 	void testRemoveFarmAnimalCorrectId() {	
-		farm.addSensor(new Sensor("ID732"));
-		assertEquals(sensorList.size(), sensorListLength + 1);
+		sensor = new Sensor("ID732");
+		farm.addSensor(sensor);
+		// Check that the sensor list has increased
+		assertEquals(farm.howManySensor(), sensorListLength + 1);
+		// Check that the last sensor in the array is the new one
+		assertEquals(sensorList.get(farm.howManySensor()-1), sensor);
 		
-		farm.addFarmAnimal("BOV820", 4, 450.68);
-		assertEquals(sensorList.size(), sensorListLength);
-		assertEquals(farmAnimalSet.size(), farmAnimalSetLength + 1);
+		try {
+			String animalId = "BOV820";
+			farm.addFarmAnimal("BOV820", 4, 450.68);
+			// Check that the sensor list has decreased
+			assertEquals(farm.howManySensor(), sensorListLength);
+			// Check that the farm animal set has increased
+			assertEquals(farm.howManyAnimals(), farmAnimalSetLength + 1);
+			// Check that the last animal is the new one
+			assertEquals(farmAnimalSet.get(farm.howManyAnimals()-1), new FarmAnimal(animalId));
+		} catch(IndexOutOfBoundsException e) {
+			fail("(Unexpected) No sensors available");
+		}
 		
 		try {
 			farm.removeFarmAnimal("BOV820");
-			assertEquals(farmAnimalSet.size(), farmAnimalSetLength);
-			assertEquals(sensorList.size(), sensorListLength + 1);
+			// Check that sensor list has increased
+			assertEquals(farm.howManySensor(), sensorListLength + 1);
+			// Check that the animal farm set has decreased
+			assertEquals(farm.howManyAnimals(), farmAnimalSetLength);
+			// Check that the last sensor in the sensor that has been taken from the removed animal
+			assertEquals(sensorList.get(farm.howManySensor()-1), sensor);
 		} catch (IndexOutOfBoundsException e) {
 			fail("(Unexpected) The ID doesn't match any FarmAnimal ID");
 		}
@@ -90,8 +116,9 @@ class FarmTest {
 	@Test
 	@DisplayName("removeFarmAnimalIncorrectID")
 	void testRemoveFarmAnimalIncorrectId() {
+		// Not compulsory, the exception will be raised anyway
 		farm.addSensor(new Sensor("ID732"));
-		assertEquals(sensorList.size(), sensorListLength + 1);
+		assertEquals(farm.howManySensor(), sensorListLength + 1); 
 		
 		assertThrows(IndexOutOfBoundsException.class, () -> farm.removeFarmAnimal("BOV820"));
 	}

@@ -22,41 +22,55 @@ class FarmAnimalTest {
 	@Test
 	@DisplayName("register without records")
 	void testRegisterNoRecords() {
-		animal.register();
+		PhysiologicalValues lastRegister = animal.register();
 		assertEquals(1, animal.getMyValuesLength());
+		assertEquals(lastRegister, animal.getLastValue());
 	}
 	
 	@Test
 	@DisplayName("register with 1 record")
 	void testRegister1Record() {
-		for (int i = 0; i < 2; i++) animal.register();
+		PhysiologicalValues lastRegister = null;
+		for (int i = 0; i < 2; i++) lastRegister = animal.register();
+		
 		assertEquals(2, animal.getMyValuesLength());
+		assertEquals(lastRegister, animal.getLastValue());
 	}
 	
 	@Test
 	@DisplayName("register with 4 records")
 	void testRegister4Records() {
-		for (int i = 0; i < 5; i++) animal.register();
+		PhysiologicalValues lastRegister = null;
+		for (int i = 0; i < 5; i++) lastRegister = animal.register();
+		
 		assertEquals(5, animal.getMyValuesLength());
+		assertEquals(lastRegister, animal.getLastValue());
 	}
 	
 	@Test
 	@DisplayName("register with 6 records")
 	void testRegister6Records() {
-		for (int i = 0; i < 7; i++) animal.register();
+		PhysiologicalValues lastRegister = null;
+		for (int i = 0; i < 7; i++) lastRegister = animal.register();
+		
 		assertEquals(7, animal.getMyValuesLength());
+		assertEquals(lastRegister, animal.getLastValue());
 	}
 	
 	@Test
 	@DisplayName("register full of records")
 	void testRegisterFull() {
-		for (int i = 0; i < 8; i++) animal.register();
+		PhysiologicalValues lastRegister = null;
+		for (int i = 0; i < 8; i++) lastRegister = animal.register();
+		
 		assertEquals(1, animal.getMyValuesLength());
+		assertEquals(lastRegister, animal.getLastValue());
 	}
 	
 	@Test
 	@DisplayName("avgTemperature without records")
 	void testAvgTemperatureNoRecords() {
+		assertEquals(i, animal.getMyValuesLength());
 		assertEquals(animal.avgTemperature(), 0);
 	}
 	
@@ -68,6 +82,7 @@ class FarmAnimalTest {
 			sum += animal.getPhyTemperature(i);
 		}
 		
+		assertEquals(i, animal.getMyValuesLength());
 		assertEquals(sum/i, animal.avgTemperature());
 	}
 	
@@ -79,6 +94,7 @@ class FarmAnimalTest {
 			sum += animal.getPhyTemperature(i);
 		}
 		
+		assertEquals(i, animal.getMyValuesLength());
 		assertEquals(sum/i, animal.avgTemperature());
 	}
 	
@@ -90,6 +106,7 @@ class FarmAnimalTest {
 			sum += animal.getPhyTemperature(i);
 		}
 		
+		assertEquals(i, animal.getMyValuesLength());
 		assertEquals(sum/i, animal.avgTemperature());
 	}
 	
@@ -103,6 +120,8 @@ class FarmAnimalTest {
 			animal.register();
 			sum += animal.getPhyTemperature(i % 7);
 		}
+		
+		assertEquals(i%7, animal.getMyValuesLength());
 		assertEquals(sum/(i % 7), animal.avgTemperature());
 	}
 

@@ -13,7 +13,7 @@ public class CheckFarmAnimal {
 	
 		for (int i = 0; i < 7; i++) {
 			// TODO Change FarmClass class in order to prevent collectValues from throwing 
-			// animal1.register();
+			animal1.register();
 			animal2.register();
 		}
 		

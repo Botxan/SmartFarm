@@ -38,13 +38,14 @@ public class Farm {
 	 * @param age animal age
 	 * @param weight animal weight
 	 * @throws IndexOutOfBoundsException if no sensors are available (empty list)
+	 * It is not mandatory to declare IndexOutOfBoundsException in the header because it
+	 * is a runtime exception, so the compiler is aware that it can be raised.
 	 */
-	public void addFarmAnimal(String id, int age, double weight) throws IndexOutOfBoundsException{
+	public void addFarmAnimal(String id, int age, double weight) throws IndexOutOfBoundsException {
 		if (sensorList.size() == 0) {
 			throw new IndexOutOfBoundsException("No sensors available");
 		}
-		Sensor sensor = sensorList.remove(sensorList.size() - 1);
-		farmAnimalSet.add(new FarmAnimal(id, age, weight, sensor));
+		farmAnimalSet.add(new FarmAnimal(id, age, weight, sensorList.remove(0)));
 	}
 	
 	/**
@@ -56,7 +57,7 @@ public class Farm {
 	}
 	
 	/**
-	 * Adds a sensor to the sensor list
+	 * Adds a sensor to the sensor list.
 	 * @param sensor the sensor to add
 	 */
 	public void addSensor(Sensor sensor) {
@@ -73,7 +74,7 @@ public class Farm {
 	
 	
 	/**
-	 * Gets a physiological register from every farm animal
+	 * Gets a physiological register from every farm animal.
 	 */
 	public void register() {
 		for (FarmAnimal animal: farmAnimalSet) {
@@ -124,7 +125,7 @@ public class Farm {
 	
 	/**
 	 * Given an age, returns an array with every animal that is older than the age passed
-	 * by parameter
+	 * by parameter.
 	 * @param age animal age
 	 * @return an array with every animal that is older than the age passed by parameter
 	 */
@@ -161,11 +162,28 @@ public class Farm {
 		return departureAnimalIds;
 	}
 	
+	/**
+	 * Returns a list with all sensors available.
+	 * Method used for JUnit testing purpouses.
+	 * @return a list with all sensors available
+	 */
 	public ArrayList<Sensor> getSensorList() {
 		return sensorList;
 	}
 	
+	/**
+	 * Returns a list of all the animals on the farm.
+	 * Method used for JUnit testing purpouses.
+	 * @return a list of all the animals
+	 */
 	public ArrayList<FarmAnimal> getFarmAnimalSet() {
 		return farmAnimalSet;
+	}
+	
+	/**
+	 * Resets the Farm class instance.
+	 */
+	public void reset() {
+		instance = null;
 	}
 }

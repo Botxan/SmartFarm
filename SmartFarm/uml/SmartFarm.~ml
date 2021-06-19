@@ -1059,9 +1059,9 @@
 <XPD:ATTR name="OwnerScope" type="UMLScopeKind">skClassifier</XPD:ATTR>
 <XPD:REF name="Owner">mSHpXeuKJ06k0uNh2++kJgAA</XPD:REF>
 <XPD:ATTR name="#Parameters" type="integer">1</XPD:ATTR>
-<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="0oaA9pF2MEqqTurQ3CRnlQAA">
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="++k+7Ay/FkuaUam48JZTcgAA">
 <XPD:ATTR name="Name" type="string">animals</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">ArrayList&lt;String&gt;</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">ArrayList&lt;FarmAnimal&gt;</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">0T1Z4cBFh0GyJI9XcqR4FgAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>

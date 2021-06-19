@@ -8,7 +8,7 @@ import packfarm.*;
 
 
 /**
- * The FarmSimultor class takes the management of the smart farm by simulating in its main method
+ * The FarmSimulator class takes the management of the smart farm by simulating in its main method
  * the behaviour of the farm creation, of all its sensors, of all the animals and the control of
  * each one of them.
  * @author Oihan
@@ -35,26 +35,40 @@ public class FarmSimulator {
 		
 		// Get and print animals older than 17
 		ArrayList<String> olderIds = farm.obtainFarmAnimalOlder(17);
-		System.out.println("Amount of animals older than 17: " + olderIds.size() + ".");
+		System.out.println("\nAmount of animals older than 17: " + olderIds.size() + ".");
 		
 		// Register physiological values for animals older than 17
-		ArrayList<FarmAnimal> olders = new ArrayList<FarmAnimal>(); 
-		for (String id: olderIds) olders.add(farm.obtainFarmAnimal(id));
-		registerOlder(olders);
+		registerOlder(olderIds);
 		
 		// Register physiological values of each animal 7 times
 		for (int i = 0; i < 7; i++) {
 			farm.register();
 		}
 		
+		// Print all information stored in historicalValues.txt
+		// We can check that physiological values of every animal older than 17 have been
+		// stored in historicalValues.txt file. The block is commented because it will saturate
+		// the console with too much data.
+//		try {
+//			Scanner reader = new Scanner(new FileReader("./data/historicalValues.txt"));
+//			System.out.println("\nShowing all data of historicalValues:");
+//			while (reader.hasNext()) {
+//				System.out.println(reader.nextLine());
+//			}
+//			reader.close();
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+		
 		// Print amount of available sensors
-		System.out.println("Available sensors after adding all animals: " + farm.howManySensor() + ".");
+		System.out.println("\nAvailable sensors after adding all animals: " + farm.howManySensor() + ".");
 		
 		// Add new animal to the farm with "XXXX" code
 		try {
+			System.out.println("\nTrying to add a new animal...");
 			farm.addFarmAnimal("XXXX", 15, 529.43);
 		} catch (IndexOutOfBoundsException e) {
-			System.out.println("\nError while adding new animal: There are no sensors available.");
+			System.out.println("Error while adding a new animal: There are no sensors available.");
 		}
 		
 		// The previous block should raise an exception, so try again to
@@ -70,7 +84,7 @@ public class FarmSimulator {
 		
 		// Get possible sick animals and print their data
 		ArrayList<FarmAnimal> possiblySickAnimals = farm.obtainPossiblySick(102.0);
-		System.out.println("\nAmount of posibly sick animals (+102ºF):" + possiblySickAnimals.size());
+		System.out.println("\nAmount of posibly sick animals (+102ºF): " + possiblySickAnimals.size());
 		
 		// Remove animals that weigh more than 500kg and are not sick
 		ArrayList<String> departureIdList = farm.farmAnimalDeparture(500, 102.0);
@@ -78,12 +92,11 @@ public class FarmSimulator {
 
 		
 		// Print amount of sensors after departure
-		System.out.println("\nAmount of available sensors after departure:" + farm.howManySensor());
+		System.out.println("\nAmount of available sensors after departure: " + farm.howManySensor());
 	}
 	
 	/**
 	 * Reads the sensor file and adds all the sensors to the farm sensor list.
-	 * @param farm the farm instance
 	 */
 	private static void loadSensors() {
 		Scanner sc;
@@ -100,7 +113,6 @@ public class FarmSimulator {
 	
 	/**
 	 * Reads the animal data file and adds all data to the farm animal set.
-	 * @param farm the farm instance
 	 */
 	// we are supossing that animal list file is always correct
 	private static void loadFarmAnimals() {
@@ -118,13 +130,12 @@ public class FarmSimulator {
 	}
 	
 	/**
-	 * Registers physiological values for every animal in the array passed by parameter.
-	 * @param animals an array of farm animals
+	 * Registers physiological values for each animal whose id is in the array
+	 * @param animals an array with farm animal ids
 	 */
-	private static void registerOlder(ArrayList<FarmAnimal> animals) {
-		for (FarmAnimal animal: animals) {
-			animal.register();
+	private static void registerOlder(ArrayList<String> animalIds) {	
+		for (String animalId: animalIds) {
+			farm.obtainFarmAnimal(animalId).register();
 		}
 	}
 }
-
